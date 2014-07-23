@@ -1,0 +1,33 @@
+<h1>Listing medical_institutions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Region</th>
+      <th>X coord</th>
+      <th>Y coord</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @medical_institutions.each do |medical_institution| %>
+      <tr>
+        <td><%= medical_institution.name %></td>
+        <td><%= medical_institution.region %></td>
+        <td><%= medical_institution.x_coord %></td>
+        <td><%= medical_institution.y_coord %></td>
+        <td><%= link_to 'Show', medical_institution %></td>
+        <td><%= link_to 'Edit', edit_medical_institution_path(medical_institution) %></td>
+        <td><%= link_to 'Destroy', medical_institution, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Medical institution', new_medical_institution_path %>

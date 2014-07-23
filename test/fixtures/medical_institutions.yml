@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyText
+  region: MyText
+  x_coord: 1.5
+  y_coord: 1.5
+
+two:
+  name: MyText
+  region: MyText
+  x_coord: 1.5
+  y_coord: 1.5
