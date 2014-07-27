@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		 <meta http-equiv="content-type" content="charset=utf-8"/>
+	    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+		<script type="text/javascript">
+		var embPlacemark, cord1 = 55.936952, cord2 = 37.343334;
+	function move(){
+		cord1 += 0.01; cord2 += 0.02;
+		embPlacemark.geometry.setCoordinates([cord1, cord2]);
+	};
+    ymaps.ready(init);
+    var myMap;
+
+    function init(){     
+        myMap = new ymaps.Map("map", {
+            center: [<%= @mapCords[0].to_s + ", " + @mapCords[1].to_s %> ],
+            zoom: <%= @mapZoom %>
+        });
+		embPlacemark = new ymaps.Placemark([cord1, cord2], null, {
+	        iconLayout: 'default#image',
+	        iconImageHref: 'emb.png',
+	        iconImageSize: [80, 80],
+	        iconImageOffset: [-20, -20],
+	        // Определим интерактивную область над картинкой.
+	        iconShape: {
+	            type: 'Circle',
+	            coordinates: [0, 0],
+	            radius: 20
+	        },
+	    });
+        
+        myMap.geoObjects.add(embPlacemark);
+    }
+	function show(){
+		var shirv = document.getElementById("shir").value;
+		var longv = document.getElementById("long").value;
+		ymaps.route([
+    { type: 'wayPoint', point: [shirv, longv] },
+    { type: 'wayPoint', point: [55.811511, 37.312518] }
+], {
+    mapStateAutoApply: true
+}).then(function (route) {
+    route.getPaths().options.set({
+        // в балуне выводим только информацию о времени движения с учетом пробок
+        balloonContentBodyLayout: ymaps.templateLayoutFactory.createClass('{{ properties.humanJamsTime }}'),
+        // можно выставить настройки графики маршруту
+        strokeColor: '008888ff',
+        opacity: 0.9
+    });
+	document.getElementById("time").value = route.getJamsTime();
+	document.getElementById("dlin").value = route.getLength();
+    // добавляем маршрут на карту
+    myMap.geoObjects.add(route);
+});
+	}
+	
+</script>
+	</head>
+	<body>
+		<div id="map" style="position: absolute; right: 200px; left:0px; top: 0px; bottom: 0px">
+				
+		</div>
+		<div id="buttons"style="position: absolute; right: 0px; top: 0px; bottom: 0px; width: 200px;">
+			<input id="shir" maxlength="25" size="40" value="55.37">
+			<input id="long" maxlength="25" size="40"value="37.37">
+			<input type="button" value="Показать маршрут" onclick="show();">
+			<input id="time" maxlength="25" size="40">
+			<input id="dlin" maxlength="25" size="40">
+			<input type="button" value="Поехали" onclick="move();">
+		</div>
+	</body>
+</html>
