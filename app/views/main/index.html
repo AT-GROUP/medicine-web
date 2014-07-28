@@ -5,33 +5,52 @@
 	    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 		<script type="text/javascript">
 		var embPlacemark, cord1 = 55.936952, cord2 = 37.343334;
+		    var myMap;
 	function move(){
 		cord1 += 0.01; cord2 += 0.02;
 		embPlacemark.geometry.setCoordinates([cord1, cord2]);
 	};
     ymaps.ready(init);
-    var myMap;
+
 
     function init(){     
         myMap = new ymaps.Map("map", {
             center: [<%= @mapCords[0].to_s + ", " + @mapCords[1].to_s %> ],
             zoom: <%= @mapZoom %>
         });
-		embPlacemark = new ymaps.Placemark([cord1, cord2], null, {
+    }
+  
+  function generateDTP(){
+    var cords = myMap.getBounds();
+    var minx = cords[0][0];
+    var miny = cords[0][1];
+    var maxx = cords[1][0];
+    var maxy = cords[1][1];
+    var x = Math.random()*(maxx - minx) + minx;
+    var y = Math.random()*(maxy - miny) + miny;
+    dtpMark = new ymaps.Placemark([x, y], {
+      balloonContent: 'ДТП: ' + Math.round(Math.random()*5 + 3) + ' пострадало',
+      }, {
 	        iconLayout: 'default#image',
-	        iconImageHref: 'emb.png',
-	        iconImageSize: [80, 80],
-	        iconImageOffset: [-20, -20],
+	        iconImageHref: 'images/dtp.png',
+	        iconImageSize: [60, 60],
+	        iconImageOffset: [-30, -30],
 	        // Определим интерактивную область над картинкой.
 	        iconShape: {
 	            type: 'Circle',
 	            coordinates: [0, 0],
-	            radius: 20
-	        },
-	    });
+	            radius: 40
+      },
+      balloonCloseButton: false,   
+      hideIconOnBalloonOpen: false
+    });
         
-        myMap.geoObjects.add(embPlacemark);
-    }
+    myMap.geoObjects.add(dtpMark);
+  
+  
+  
+  }
+  
 	function show(){
 		var shirv = document.getElementById("shir").value;
 		var longv = document.getElementById("long").value;
@@ -62,12 +81,7 @@
 				
 		</div>
 		<div id="buttons"style="position: absolute; right: 0px; top: 0px; bottom: 0px; width: 200px;">
-			<input id="shir" maxlength="25" size="40" value="55.37">
-			<input id="long" maxlength="25" size="40"value="37.37">
-			<input type="button" value="Показать маршрут" onclick="show();">
-			<input id="time" maxlength="25" size="40">
-			<input id="dlin" maxlength="25" size="40">
-			<input type="button" value="Поехали" onclick="move();">
+			<input type="button" value="Создать дтп" onclick="generateDTP();">
 		</div>
 	</body>
 </html>
