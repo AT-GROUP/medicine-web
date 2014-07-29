@@ -1,6 +1,6 @@
 class MedicalInstitutionsController < ApplicationController
   before_action :set_medical_institution, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /medical_institutions
   # GET /medical_institutions.json
   def index

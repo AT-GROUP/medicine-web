@@ -1,4 +1,5 @@
 MedicineWeb::Application.routes.draw do
+  get 'ajax/get_lpys' => 'ajax#get_lpys'
   resources :medical_institutions
   root 'main#index'
   

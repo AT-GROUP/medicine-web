@@ -50,6 +50,45 @@
   
   
   }
+  var lpys;
+
+  function showLPYs(){
+    var htmlresp;
+
+    var cords = myMap.getBounds();
+    var minx = cords[0][0];
+    var miny = cords[0][1];
+    var maxx = cords[1][0];
+    var maxy = cords[1][1];
+          
+    $.ajax({
+      url: "ajax/get_lpys?startx="+minx+
+                "&endx="+maxx+"&starty="+miny+"&endy="+maxy,
+      cache: false, 
+      success: function(htmlresp) {
+      lpys = JSON.parse(htmlresp);
+      var lpy;
+      for(var i = 0; i < lpys.length; ++i){
+        lpy = new ymaps.Placemark([lpys[i].x_coord, lpys[i].y_coord], {
+          balloonContent: lpys[i].LPYname,
+          }, {
+	            iconLayout: 'default#image',
+	            iconImageHref: 'images/lpy.png',
+	            iconImageSize: [20, 20],
+	            iconImageOffset: [-10, -10],
+	            iconShape: {
+	                type: 'Circle',
+	                coordinates: [0, 0],
+	                radius: 40
+              },
+              balloonCloseButton: false,   
+              hideIconOnBalloonOpen: false
+        });
+        myMap.geoObjects.add(lpy);      
+      }
+    } 
+    });
+  }
   
 	function show(){
 		var shirv = document.getElementById("shir").value;
@@ -81,7 +120,8 @@
 				
 		</div>
 		<div id="buttons"style="position: absolute; right: 0px; top: 0px; bottom: 0px; width: 200px;">
-			<input type="button" value="Создать дтп" onclick="generateDTP();">
+			<input type="button" value="Создать ДТП" onclick="generateDTP();">
+			<input type="button" value="Показать ЛПУ" onclick="showLPYs();">
 		</div>
 	</body>
 </html>

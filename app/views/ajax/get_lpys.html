@@ -1,0 +1,14 @@
+[
+<% @lpys.each do |lpy| 
+    lname = lpy.name.gsub!('"', '\"')
+    if lname == nil
+      lname = " "
+    end%>
+  {
+    "LPYname": "<%= lname.html_safe %>",
+    "x_coord": "<%= lpy.x_coord %>",
+    "y_coord": "<%= lpy.y_coord %>"  
+  },
+<% end %>
+{}
+]
