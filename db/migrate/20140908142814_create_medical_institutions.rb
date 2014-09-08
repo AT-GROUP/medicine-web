@@ -5,7 +5,6 @@ class CreateMedicalInstitutions < ActiveRecord::Migration
       t.text :region
       t.float :x_coord
       t.float :y_coord
-
     end
   end
 end
