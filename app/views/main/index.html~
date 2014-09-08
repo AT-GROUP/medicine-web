@@ -5,8 +5,11 @@
 	    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 		<script type="text/javascript">
 		var embPlacemark, cord1 = 55.936952, cord2 = 37.343334;
-		    var myMap, DTP, DTPx, DTPy;
-
+		    var myMap, DTP;
+	function move(){
+		cord1 += 0.01; cord2 += 0.02;
+		embPlacemark.geometry.setCoordinates([cord1, cord2]);
+	};
     ymaps.ready(init);
 
 
@@ -26,10 +29,10 @@
     var miny = cords[0][1];
     var maxx = cords[1][0];
     var maxy = cords[1][1];
-    DTPx = Math.random()*(maxx - minx) + minx;
-    DTPy = Math.random()*(maxy - miny) + miny;
+    var x = Math.random()*(maxx - minx) + minx;
+    var y = Math.random()*(maxy - miny) + miny;
 
-    DTP = new ymaps.Placemark([DTPx, DTPy], {
+    DTP = new ymaps.Placemark([x, y], {
       balloonContent: 'ДТП: ' + Math.round(Math.random()*5 + 3) + ' пострадало',
       }, {
 	        iconLayout: 'default#image',
@@ -49,7 +52,7 @@
     myMap.geoObjects.add(DTP);
   }
 
-  var lpys, geoLpys = [];
+  var lpys;
 
   function showLPYs(){
     var htmlresp;
@@ -66,9 +69,9 @@
       cache: false, 
       success: function(htmlresp) {
       lpys = JSON.parse(htmlresp);
-      
+      var lpy = [];
       for(var i = 0; i < lpys.length; ++i){
-        geoLpys[i] = new ymaps.Placemark([lpys[i].x_coord, lpys[i].y_coord], {
+        lpy[i] = new ymaps.Placemark([lpys[i].x_coord, lpys[i].y_coord], {
           balloonContent: lpys[i].LPYname,
           }, {
 	            iconLayout: 'default#image',
@@ -83,12 +86,12 @@
               balloonCloseButton: false,   
               hideIconOnBalloonOpen: false
         });
-        myMap.geoObjects.add(geoLpys[i]);      
+        myMap.geoObjects.add(lpy[i]);      
       }
     } 
     });
   }
-
+  
 	function show(){
 		var shirv = document.getElementById("shir").value;
 		var longv = document.getElementById("long").value;
@@ -111,79 +114,6 @@
     myMap.geoObjects.add(route);
 });
 	}
-
-var buildFlag, endBuildFlag, res = [], maxDTPQountConst = 100;
-
-function makeResJson(){
-  if(res.length == 0 )
-    return "none";
-  
-  var resStr = "[";
-  for(var i = 0; i < res.length; i++){
-    resStr += JSON.stringify(res[i]);
-    resStr += ",";
-  }
-  resStr+=']';
-  
-  return resStr;
-}
-
-function sendDTPdata(){
-    $.post("planning/senddtp", { result : makeResJson() }).done(function( data ) {
-    alert( "Data Loaded: " + data );
-  });
-}
-
-function getDTPData(){
-  if(DTPx == null || DTPy == null){
-    alert("Поблизости нет ДТП!");
-    return;
-  }
-  if (lpys == null || lpys.length == 0){
-    alert("Поблизости нет ЛПУ!");
-    return;
-  }
-  
-  if( lpys.length > maxDTPQountConst )
-    endBuildFlag = maxDTPQountConst * 2;
-  else
-    endBuildFlag = lpys.length * 2;
-
-  buildFlag = 0;
-  getRouteData();
-}
-
-function getRouteData(){
-  var i = buildFlag/2>>0;
-  //alert(i);
-  if(buildFlag % 2 == 0){
-    ymaps.route([ { type: 'wayPoint', point: [DTPx, DTPy] }, 
-                  { type: 'wayPoint', point: [lpys[i].x_coord, lpys[i].y_coord] } 
-               ]).done(function (route) {
-                  var i = buildFlag/2;
-                  if( res[i] == null )
-                    res[i] = {};
-                 res[i].from_time = route.getJamsTime();
-                 res[i].from_length = route.getLength();
-                 ++buildFlag;
-                 getRouteData();
-               });
-  } else {  
-    ymaps.route([ { type: 'wayPoint', point: [lpys[i].x_coord, lpys[i].y_coord] }, 
-                  { type: 'wayPoint', point: [DTPx, DTPy] } 
-               ]).done(function (route) {
-                 if( res[i] == null )
-                   res[i] = {};
-                 res[i].to_time = route.getJamsTime();
-                 res[i].to_length = route.getLength();
-                 ++buildFlag;
-                 if(buildFlag == endBuildFlag)
-                   sendDTPdata();
-                 else
-                   getRouteData();
-               });
-  }
-}
 	
 </script>
 	</head>
@@ -194,7 +124,6 @@ function getRouteData(){
 		<div id="buttons"style="position: absolute; right: 0px; top: 0px; bottom: 0px; width: 200px;">
 			<input type="button" value="Создать ДТП" onclick="generateDTP();">
 			<input type="button" value="Показать ЛПУ" onclick="showLPYs();">
-      <input type="button" value="Отправить инфо" onclick="getDTPData();">
 		</div>
 	</body>
 </html>
