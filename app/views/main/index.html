@@ -155,7 +155,7 @@ function getDTPData(){
 
 function getRouteData(){
   var i = buildFlag/2>>0;
-  alert(i);
+  //alert(i);
   if(buildFlag % 2 == 0){
     ymaps.route([ { type: 'wayPoint', point: [DTPx, DTPy] }, 
                   { type: 'wayPoint', point: [lpys[i].x_coord, lpys[i].y_coord] } 
