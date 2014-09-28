@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  resources :burns do as_routes end
-  resources :reanimations do as_routes end
-  resources :surgeries do as_routes end
   resources :medical_institutions do as_routes end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
