@@ -11,34 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140908150605) do
-
-  create_table "burns", force: true do |t|
-    t.integer  "capacity"
-    t.integer  "end_fund"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(version: 20140928161145) do
 
   create_table "medical_institutions", force: true do |t|
-    t.text  "name"
-    t.text  "region"
-    t.float "x_coord"
-    t.float "y_coord"
-  end
-
-  create_table "reanimations", force: true do |t|
-    t.integer  "capacity"
-    t.integer  "end_fund"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "surgeries", force: true do |t|
-    t.integer  "capacity"
-    t.integer  "end_fund"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.text    "name"
+    t.text    "region"
+    t.float   "x_coord"
+    t.float   "y_coord"
+    t.integer "surgery"
+    t.integer "neuro"
+    t.integer "burn"
+    t.integer "reanimation"
   end
 
 end
