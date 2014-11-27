@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928161145) do
+ActiveRecord::Schema.define(version: 20141127175703) do
+
+  create_table "cars", force: true do |t|
+    t.text    "locations"
+    t.integer "time"
+  end
 
   create_table "medical_institutions", force: true do |t|
     t.text    "name"
