@@ -11,13 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140723155215) do
+ActiveRecord::Schema.define(version: 20140928161145) do
 
   create_table "medical_institutions", force: true do |t|
-    t.text  "name"
-    t.text  "region"
-    t.float "x_coord"
-    t.float "y_coord"
+    t.text    "name"
+    t.text    "region"
+    t.float   "latitude"
+    t.float   "longitude"
+    t.integer "surgery"
+    t.integer "neuro"
+    t.integer "burn"
+    t.integer "reanimation"
   end
 
 end
