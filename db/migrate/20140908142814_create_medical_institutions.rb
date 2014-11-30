@@ -3,9 +3,8 @@ class CreateMedicalInstitutions < ActiveRecord::Migration
     create_table :medical_institutions do |t|
       t.text :name
       t.text :region
-      t.float :x_coord
-      t.float :y_coord
-
+      t.float :latitude
+      t.float :longitude
     end
   end
 end

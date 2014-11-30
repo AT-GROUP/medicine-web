@@ -1,7 +1,7 @@
 MedicineWeb::Application.routes.draw do
   get 'ajax/get_lpys' => 'ajax#get_lpys'
   post 'planning/senddtp' => 'planning#senddtp'
-  resources :medical_institutions
+  resources :medical_institutions do as_routes end
   root 'main#index'
   
   # The priority is based upon order of creation: first created -> highest priority.
