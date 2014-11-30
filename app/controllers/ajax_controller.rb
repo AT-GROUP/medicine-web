@@ -29,7 +29,7 @@ class AjaxController < ApplicationController
   end
 
   def add_new_car_locations
-    //TODO
+    #TODO
     all_lpy = MedicalInstitution.all
     car_locations = []
     timst = Time.now.to_i
@@ -54,6 +54,17 @@ class AjaxController < ApplicationController
     end
 
     return last_locations
+  end
+
+  def get_last_cars_location_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+    all_cars = get_last_cars_location
+    cars_in_rect = []
+    all_cars.each do |loc|
+      if loc[:lat] >= lower_latitude and loc[:lat] <= upper_latitude and
+        loc[:lon] >= lower_longitude and loc[:lon] <= upper_longitude
+        cars_in_rect << loc
+    end
+    return cars_in_rect
   end
 
   def get_closest_car_state(time_to_find)
