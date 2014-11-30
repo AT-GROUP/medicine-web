@@ -1,0 +1,27 @@
+#map{
+  position: absolute;
+  right: 30%;
+  left:0px;
+  top: 50px;
+  bottom: 0px;
+}
+
+#menu{
+  position: absolute;
+  right: 3px;
+  top: 50px;
+  bottom: 3px;
+  width: 29%;
+}
+
+.center{
+  text-align:center;
+  vertical-align:middle;
+}
+
+.nodisplay{
+  display:none;
+}
+.yesdisplay{
+  display: block;
+}

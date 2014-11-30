@@ -1,0 +1,357 @@
+begin_groups
+118
+group
+1
+0 0 amb-rdy 1 <ambulance-1> 
+group
+1
+1 0 amb-rdy 1 <ambulance-2> 
+group
+1
+2 0 amb-rdy 1 <ambulance-3> 
+group
+1
+3 0 amb-rdy 1 <ambulance-4> 
+group
+1
+114 0 rnm-rdy 1 <reanimation-11> 
+group
+1
+115 0 rnm-rdy 1 <reanimation-21> 
+group
+1
+116 0 rnm-rdy 1 <reanimation-22> 
+group
+1
+117 0 rnm-rdy 1 <reanimation-31> 
+group
+1
+25 0 at 2 <brk-bone-1> <hospital-1> 
+group
+1
+12 0 at 2 <ambulance-3> <accident-1> 
+group
+1
+54 0 in 2 <brain-1> <reanimation-11> 
+group
+1
+36 0 at 2 <l-internal-1> <accident-1> 
+group
+1
+34 0 at 2 <h-internal-1> <hospital-2> 
+group
+1
+113 0 in 2 <l-internal-1> <traumatology-1> 
+group
+1
+6 0 at 2 <ambulance-1> <hospital-2> 
+group
+1
+69 0 in 2 <brk-bone-1> <reanimation-22> 
+group
+1
+100 0 in 2 <h-internal-1> <traumatology-1> 
+group
+1
+91 0 in 2 <h-internal-1> <ambulance-4> 
+group
+1
+4 0 at 2 <ambulance-1> <accident-1> 
+group
+1
+48 0 at 2 <traumatology-1> <hospital-1> 
+group
+1
+62 0 in 2 <brk-bone-1> <ambulance-1> 
+group
+1
+61 0 in 2 <brain-1> <traumatology-1> 
+group
+1
+27 0 at 2 <brk-bone-1> <hospital-3> 
+group
+1
+53 0 in 2 <brain-1> <neurosurgery-1> 
+group
+1
+50 0 in 2 <brain-1> <ambulance-2> 
+group
+1
+59 0 in 2 <brain-1> <surgery-no-ic-1> 
+group
+1
+26 0 at 2 <brk-bone-1> <hospital-2> 
+group
+1
+87 0 in 2 <burn-1> <traumatology-1> 
+group
+1
+93 0 in 2 <h-internal-1> <reanimation-11> 
+group
+1
+90 0 in 2 <h-internal-1> <ambulance-3> 
+group
+1
+17 0 at 2 <ambulance-4> <hospital-1> 
+group
+1
+60 0 in 2 <brain-1> <thermal-chemical-1> 
+group
+1
+19 0 at 2 <ambulance-4> <hospital-3> 
+group
+1
+78 0 in 2 <burn-1> <ambulance-4> 
+group
+1
+88 0 in 2 <h-internal-1> <ambulance-1> 
+group
+1
+85 0 in 2 <burn-1> <surgery-no-ic-1> 
+group
+1
+82 0 in 2 <burn-1> <reanimation-22> 
+group
+1
+70 0 in 2 <brk-bone-1> <reanimation-31> 
+group
+1
+108 0 in 2 <l-internal-1> <reanimation-22> 
+group
+1
+94 0 in 2 <h-internal-1> <reanimation-21> 
+group
+1
+39 0 at 2 <l-internal-1> <hospital-3> 
+group
+1
+103 0 in 2 <l-internal-1> <ambulance-3> 
+group
+1
+14 0 at 2 <ambulance-3> <hospital-2> 
+group
+1
+73 0 in 2 <brk-bone-1> <thermal-chemical-1> 
+group
+1
+31 0 at 2 <burn-1> <hospital-3> 
+group
+1
+49 0 in 2 <brain-1> <ambulance-1> 
+group
+1
+44 0 at 2 <reanimation-31> <hospital-3> 
+group
+1
+79 0 in 2 <burn-1> <neurosurgery-1> 
+group
+1
+75 0 in 2 <burn-1> <ambulance-1> 
+group
+1
+80 0 in 2 <burn-1> <reanimation-11> 
+group
+1
+45 0 at 2 <surgery-ic-1> <hospital-2> 
+group
+1
+46 0 at 2 <surgery-no-ic-1> <hospital-3> 
+group
+1
+101 0 in 2 <l-internal-1> <ambulance-1> 
+group
+1
+41 0 at 2 <reanimation-11> <hospital-1> 
+group
+1
+5 0 at 2 <ambulance-1> <hospital-1> 
+group
+1
+64 0 in 2 <brk-bone-1> <ambulance-3> 
+group
+1
+96 0 in 2 <h-internal-1> <reanimation-31> 
+group
+1
+23 0 at 2 <brain-1> <hospital-3> 
+group
+1
+77 0 in 2 <burn-1> <ambulance-3> 
+group
+1
+38 0 at 2 <l-internal-1> <hospital-2> 
+group
+1
+74 0 in 2 <brk-bone-1> <traumatology-1> 
+group
+1
+33 0 at 2 <h-internal-1> <hospital-1> 
+group
+1
+97 0 in 2 <h-internal-1> <surgery-ic-1> 
+group
+1
+56 0 in 2 <brain-1> <reanimation-22> 
+group
+1
+30 0 at 2 <burn-1> <hospital-2> 
+group
+1
+98 0 in 2 <h-internal-1> <surgery-no-ic-1> 
+group
+1
+107 0 in 2 <l-internal-1> <reanimation-21> 
+group
+1
+99 0 in 2 <h-internal-1> <thermal-chemical-1> 
+group
+1
+104 0 in 2 <l-internal-1> <ambulance-4> 
+group
+1
+47 0 at 2 <thermal-chemical-1> <hospital-3> 
+group
+1
+68 0 in 2 <brk-bone-1> <reanimation-21> 
+group
+1
+71 0 in 2 <brk-bone-1> <surgery-ic-1> 
+group
+1
+84 0 in 2 <burn-1> <surgery-ic-1> 
+group
+1
+72 0 in 2 <brk-bone-1> <surgery-no-ic-1> 
+group
+1
+95 0 in 2 <h-internal-1> <reanimation-22> 
+group
+1
+10 0 at 2 <ambulance-2> <hospital-2> 
+group
+1
+63 0 in 2 <brk-bone-1> <ambulance-2> 
+group
+1
+89 0 in 2 <h-internal-1> <ambulance-2> 
+group
+1
+55 0 in 2 <brain-1> <reanimation-21> 
+group
+1
+65 0 in 2 <brk-bone-1> <ambulance-4> 
+group
+1
+58 0 in 2 <brain-1> <surgery-ic-1> 
+group
+1
+29 0 at 2 <burn-1> <hospital-1> 
+group
+1
+16 0 at 2 <ambulance-4> <accident-1> 
+group
+1
+7 0 at 2 <ambulance-1> <hospital-3> 
+group
+1
+105 0 in 2 <l-internal-1> <neurosurgery-1> 
+group
+1
+40 0 at 2 <neurosurgery-1> <hospital-1> 
+group
+1
+28 0 at 2 <burn-1> <accident-1> 
+group
+1
+32 0 at 2 <h-internal-1> <accident-1> 
+group
+1
+92 0 in 2 <h-internal-1> <neurosurgery-1> 
+group
+1
+15 0 at 2 <ambulance-3> <hospital-3> 
+group
+1
+13 0 at 2 <ambulance-3> <hospital-1> 
+group
+1
+51 0 in 2 <brain-1> <ambulance-3> 
+group
+1
+52 0 in 2 <brain-1> <ambulance-4> 
+group
+1
+66 0 in 2 <brk-bone-1> <neurosurgery-1> 
+group
+1
+67 0 in 2 <brk-bone-1> <reanimation-11> 
+group
+1
+37 0 at 2 <l-internal-1> <hospital-1> 
+group
+1
+20 0 at 2 <brain-1> <accident-1> 
+group
+1
+76 0 in 2 <burn-1> <ambulance-2> 
+group
+1
+22 0 at 2 <brain-1> <hospital-2> 
+group
+1
+11 0 at 2 <ambulance-2> <hospital-3> 
+group
+1
+111 0 in 2 <l-internal-1> <surgery-no-ic-1> 
+group
+1
+106 0 in 2 <l-internal-1> <reanimation-11> 
+group
+1
+21 0 at 2 <brain-1> <hospital-1> 
+group
+1
+112 0 in 2 <l-internal-1> <thermal-chemical-1> 
+group
+1
+81 0 in 2 <burn-1> <reanimation-21> 
+group
+1
+102 0 in 2 <l-internal-1> <ambulance-2> 
+group
+1
+83 0 in 2 <burn-1> <reanimation-31> 
+group
+1
+86 0 in 2 <burn-1> <thermal-chemical-1> 
+group
+1
+57 0 in 2 <brain-1> <reanimation-31> 
+group
+1
+9 0 at 2 <ambulance-2> <hospital-1> 
+group
+1
+43 0 at 2 <reanimation-22> <hospital-2> 
+group
+1
+8 0 at 2 <ambulance-2> <accident-1> 
+group
+1
+18 0 at 2 <ambulance-4> <hospital-2> 
+group
+1
+24 0 at 2 <brk-bone-1> <accident-1> 
+group
+1
+35 0 at 2 <h-internal-1> <hospital-3> 
+group
+1
+109 0 in 2 <l-internal-1> <reanimation-31> 
+group
+1
+110 0 in 2 <l-internal-1> <surgery-ic-1> 
+group
+1
+42 0 at 2 <reanimation-21> <hospital-2> 
+end_groups
