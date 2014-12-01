@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141127175703) do
+ActiveRecord::Schema.define(version: 20141201202726) do
 
   create_table "cars", force: true do |t|
     t.text    "locations"

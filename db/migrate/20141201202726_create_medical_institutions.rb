@@ -5,6 +5,10 @@ class CreateMedicalInstitutions < ActiveRecord::Migration
       t.text :region
       t.float :latitude
       t.float :longitude
+      t.integer :surgery
+      t.integer :neuro
+      t.integer :burn
+      t.integer :reanimation
     end
   end
 end
