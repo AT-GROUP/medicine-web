@@ -1,7 +1,8 @@
 var embPlacemark, cord1 = 55.936952, cord2 = 37.343334;
 var myMap, DTP, DTPx, DTPy;
-var lpys, geoLpys = [];
+var lpys, geoLpys = [], cars, geoCars = [];
 var buildFlag, endBuildFlag, res = [], maxDTPQountConst = 100;
+var lastCar = null, lastLPY = null, victims=0, sstime = 0;
 
 function set_new_progress(pers){
   var div = $('#progress-bar');
@@ -10,11 +11,28 @@ function set_new_progress(pers){
   div.text(' ' + intPers + '%');
 }
 
+function reserve_car(){
+  if(DTPx == null || DTPy == null){
+    alert("Поблизости нет ДТП!");
+    return;
+  }
+  if (lastCar == null){
+    alert("Выберите машину на карте.");
+    return;
+  }
+  ymaps.route([ { type: 'wayPoint', point: [DTPx, DTPy] }, 
+                { type: 'wayPoint', point: lastCar._xR._Jo.target.geometry.getCoordinates() } 
+             ]).done(function (route) {
+               sstime += route.getJamsTime();
+             });
+  geoCars.remove(lastCar);
+  lastCar = null;
+}
 
 function generateDTP(){
   if (DTP != null)
     myMap.geoObjects.remove(DTP);
-  var victims = 0;
+  victims = 0;
   for(var i = 1; i < 5; i++){
     var temp = parseInt($('#victim' + i).val(), 10);
     if(!isNaN(temp) && temp > 0)
@@ -49,11 +67,7 @@ function generateDTP(){
   });
 
     // При щелчк
-
-
-}
-
-  
+}  
 
 function showLPYs(){
   var htmlresp;
@@ -72,7 +86,7 @@ function showLPYs(){
     lpys = JSON.parse(htmlresp);
     
     for(var i = 0; i < lpys.length; ++i){
-      geoLpys[i] = new ymaps.Placemark([lpys[i].x_coord, lpys[i].y_coord], {
+      geoLpys.add( new ymaps.Placemark([lpys[i].x_coord, lpys[i].y_coord], {
         balloonContent: lpys[i].LPYname,
         }, {
             iconLayout: 'default#image',
@@ -86,9 +100,61 @@ function showLPYs(){
             },
             balloonCloseButton: false,   
             hideIconOnBalloonOpen: false
-      });
-      myMap.geoObjects.add(geoLpys[i]);      
+      }))          
     }
+    myMap.geoObjects.add(geoLpys);
+  } 
+  });
+}
+
+function hideLPYs(){
+  geoLpys.removeAll();
+}
+
+function hideCars(){
+  geoCars.removeAll();
+}
+
+
+
+function showCars(){
+  var htmlresp;
+
+  var cords = myMap.getBounds();
+  var minx = cords[0][0];
+  var miny = cords[0][1];
+  var maxx = cords[1][0];
+  var maxy = cords[1][1];
+        
+  $.ajax({
+    url: "ajax/get_lpys?startx="+minx+
+              "&endx="+maxx+"&starty="+miny+"&endy="+maxy,
+    cache: false, 
+    success: function(htmlresp) {
+    cars = JSON.parse(htmlresp);
+    
+    for(var i = 0; i < cars.length; ++i){
+      geoCars.add( new ymaps.Placemark([cars[i].x_coord, cars[i].y_coord], {
+        balloonContent: cars[i].LPYname,
+        }, {
+            iconLayout: 'default#image',
+            iconImageHref: 'images/car.png',
+            iconImageSize: [20, 20],
+            iconImageOffset: [-10, -10],
+            iconShape: {
+                type: 'Circle',
+                coordinates: [0, 0],
+                radius: 40
+            },
+            balloonCloseButton: false,   
+            hideIconOnBalloonOpen: false
+      }))
+            
+    }
+    geoCars.events.add("click", function (e) {
+      lastCar = e;
+    }, this);
+    myMap.geoObjects.add(geoCars);
   } 
   });
 }

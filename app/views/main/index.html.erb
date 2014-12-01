@@ -3,16 +3,18 @@
 	<head>
 		 <meta http-equiv="content-type" content="charset=utf-8"/>
 	    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-      <script>  
+      <script>
+        var geoLpys, geoCars; 
         function init(){     
             myMap = new ymaps.Map("map", {
                 center: [<%= @mapCords[0].to_s + ", " + @mapCords[1].to_s %> ],
                 zoom: <%= @mapZoom %>
             });
+            geoLpys = new ymaps.GeoObjectCollection();
+            geoCars = new ymaps.GeoObjectCollection();
         }
-        ymaps.ready(init);
+        ymaps.ready(init);     
       </script>
-      <%= javascript_include_tag 'main' %>  
       
 	</head>
 	<body>
@@ -72,24 +74,17 @@
                  <input type="button" class="btn btn-success" value="Создать ДТП" onclick="generateDTP();">
               </div>
             </div>
-            <div class="container-fluid center">
-               <input type="button" class="btn btn-success" value="Загрузить информацию о ЛПУ и машинах" onclick="showLPYs();">
-            </div>
           </form>
           
         </div>
         <div class="tab-pane fade" id="selfSolve" >
-          <div class="col-lg-6">
-            <div class="input-group">
-              <input type="text" class="form-control">
-              <span class="input-group-addon">
-                <input type="checkbox">
-              </span>
-            </div><!-- /input-group -->
-          </div>
+          <%= render 'selfsolve' %>
         </div>
         <div class="tab-pane fade" id="autoSolve" >
           <div class="container-fluid center">
+            <div class="container-fluid center">
+               <input type="button" class="btn btn-success" value="Загрузить информацию о ЛПУ и машинах" onclick="showLPYs();">
+            </div>
             <input type="button" class="btn btn-success" value="Автоматическое решение" onclick="getDTPData();">  
           </div>
 &nbsp;

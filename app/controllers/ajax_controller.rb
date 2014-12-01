@@ -29,7 +29,7 @@ class AjaxController < ApplicationController
   end
 
   def add_new_car_locations
-    //TODO
+    #TODO
     all_lpy = MedicalInstitution.all
     car_locations = []
     timst = Time.now.to_i
