@@ -12,7 +12,20 @@
     </div>
   </div>
   <div class="panel-body">
-    <input type="button" class="btn btn-danger" value="Установить" onclick="reserve_car();"> 
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-5 center">
+          <input id="victims_button" disabled type="button" class="btn btn-danger" value="Установить" onclick="reserve_car();"> 
+        </div>
+        <div class="col-md-7 center">
+          Осталось распределить&nbsp;
+          <div id="last_victims_div">
+            0
+          </div>
+          &nbsp;пострадавших. 
+        </div>
+      </div>  
+    </div>  
   </div>
 </div>
 

@@ -2,13 +2,24 @@ var embPlacemark, cord1 = 55.936952, cord2 = 37.343334;
 var myMap, DTP, DTPx, DTPy;
 var lpys, geoLpys = [], cars, geoCars = [];
 var buildFlag, endBuildFlag, res = [], maxDTPQountConst = 100;
-var lastCar = null, lastLPY = null, victims=0, sstime = 0;
+var lastCar = null, lastLPY = null, victims=0, sstime = 0, last_victims;
 
 function set_new_progress(pers){
   var div = $('#progress-bar');
   var intPers = Math.round(pers)*5;
   div.css('width', intPers + '%');
   div.text(' ' + intPers + '%');
+}
+
+function update_last_victims_div(){
+  $('#last_victims_div').html(last_victims);
+  if(last_victims <= 0)
+    $('#victims_button').attr('disabled', true);
+  else
+    $('#victims_button').attr('disabled',false);
+}
+
+function recalc_victims(){
 }
 
 function reserve_car(){
@@ -20,13 +31,16 @@ function reserve_car(){
     alert("Выберите машину на карте.");
     return;
   }
+  last_victims--;
+  update_last_victims_div();
   ymaps.route([ { type: 'wayPoint', point: [DTPx, DTPy] }, 
-                { type: 'wayPoint', point: lastCar._xR._Jo.target.geometry.getCoordinates() } 
+                { type: 'wayPoint', point: lastCar.geometry.getCoordinates() } 
              ]).done(function (route) {
-               sstime += route.getJamsTime();
+                sstime += route.getJamsTime();
+                geoCars.remove(lastCar);
+                lastCar = null;
              });
-  geoCars.remove(lastCar);
-  lastCar = null;
+  
 }
 
 function generateDTP(){
@@ -38,6 +52,8 @@ function generateDTP(){
     if(!isNaN(temp) && temp > 0)
       victims += temp;
   }
+  last_victims = victims;
+  update_last_victims_div();
   var address = $('#inputRegion').val() + ', ' + $('#inputAddress').val();
 
   ymaps.geocode(address, { results: 1 }).then(function (res) {
@@ -116,7 +132,7 @@ function hideCars(){
 }
 
 
-
+var sc;
 function showCars(){
   var htmlresp;
 
@@ -134,7 +150,7 @@ function showCars(){
     cars = JSON.parse(htmlresp);
     
     for(var i = 0; i < cars.length; ++i){
-      geoCars.add( new ymaps.Placemark([cars[i].x_coord, cars[i].y_coord], {
+       var plmark = new ymaps.Placemark([cars[i].x_coord, cars[i].y_coord], {
         balloonContent: cars[i].LPYname,
         }, {
             iconLayout: 'default#image',
@@ -148,12 +164,13 @@ function showCars(){
             },
             balloonCloseButton: false,   
             hideIconOnBalloonOpen: false
-      }))
-            
+      });
+      plmark.events.add("click", function (e) {
+        lastCar = e._Jo.target;
+      });
+      sc = plmark;
+      geoCars.add(plmark);      
     }
-    geoCars.events.add("click", function (e) {
-      lastCar = e;
-    }, this);
     myMap.geoObjects.add(geoCars);
   } 
   });
