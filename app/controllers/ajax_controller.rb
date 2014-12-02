@@ -1,6 +1,5 @@
 class AjaxController < ApplicationController
   layout false
-  Max_interval = 60
   def get_lpys
     @lpys = MedicalInstitution.where("latitude > :startx AND latitude < :endx AND longitude > :starty AND longitude < :endy",
             {startx: params[:startx], endx: params[:endx], starty: params[:starty], endy: params[:endy]})
@@ -24,7 +23,6 @@ class AjaxController < ApplicationController
         list_with_slots << lpy
       end
     end
-
     return list_with_slots
   end
 
@@ -43,12 +41,14 @@ class AjaxController < ApplicationController
       end
     end
     Car.create(car_locations.to_s, timest)
+    Car.save
   end
 
   def get_last_cars_location
+    max_interval = 60
     last_locations = Car.last
 
-    if last_locations == nil or last_locations.time - Time.now.to_i > Max_interval
+    if last_locations == nil or last_locations.time - Time.now.to_i > max_interval
       add_new_car_locations
       last_locations = Car.last
     end
@@ -63,6 +63,7 @@ class AjaxController < ApplicationController
       if loc[:lat] >= lower_latitude and loc[:lat] <= upper_latitude and
         loc[:lon] >= lower_longitude and loc[:lon] <= upper_longitude
         cars_in_rect << loc
+      end
     end
     return cars_in_rect
   end
