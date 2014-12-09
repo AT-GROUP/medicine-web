@@ -18,8 +18,8 @@ class AjaxController < ApplicationController
     list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
     list_with_slots = []
     list.each do |lpy|
-      if (lpy.surgery >= surgery and surgery > 0) or (lpy.neuro >= neuro and neuro > 0) or
-          (lpy.burns >= burns and burns > 0) or (lpy.reanimation >= reanimation and reanimation > 0)
+      if (lpy.surgery >= 1 and surgery > 0) or (lpy.neuro >= 1 and neuro > 0) or
+          (lpy.burn >= 1 and burns > 0) or (lpy.reanimation >= 1 and reanimation > 0)
         list_with_slots << lpy
       end
     end
@@ -29,18 +29,35 @@ class AjaxController < ApplicationController
   def add_new_car_locations
     #TODO
     all_lpy = MedicalInstitution.all
-    car_locations = []
+    all_cars = []
     timst = Time.now.to_i
     all_lpy.each do |lpy|
-      coords = {}
-      coords[:lat] = lpy.latitude
-      coords[:lon] = lpy.longitude
+      car_prop = {}
+      car_prop[:lat] = lpy.latitude
+      car_prop[:lon] = lpy.longitude
       cnt = rand(7)
       for i in 0...cnt
-        car_locations << coords
+        car_type = rand(3)
+        if car_type == 0
+          car_prop[:type] = 'A'
+        else if car_type == 1
+          car_prop[:type] = 'B'
+        else
+          car_prop[:type] = 'C'
+        end
+        team_type = rand(3)
+        #M - medic, P - paramedic, PM - paramedic/medic
+        if team_type == 0
+          car_prop[:team] = 'M'
+        else if team_type == 1
+          car_prop[:team] = 'P'
+        else
+          car_prop[:team] = 'PM'
+        end
+        all_cars << car_prop
       end
     end
-    Car.create(car_locations.to_s, timest)
+    Car.create(all_cars.to_s, timest)
     Car.save
   end
 
