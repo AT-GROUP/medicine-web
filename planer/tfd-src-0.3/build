@@ -1,5 +1,0 @@
-#! /bin/sh
-
-cd downward
-./build_all
-cd ..
