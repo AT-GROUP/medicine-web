@@ -25,3 +25,7 @@
 .yesdisplay{
   display: block;
 }
+
+.nopadding{
+  padding: 0;
+}

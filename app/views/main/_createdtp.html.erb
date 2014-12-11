@@ -1,0 +1,37 @@
+<form class="form-horizontal" role="form">
+  <h3><span class="label label-info">Адрес</span></h3>
+  <div class="form-group">
+    <label for="inputRegion" class="col-sm-3 control-label">Регион</label>
+    <div class="col-sm-9">
+      <input type="text" class="form-control" id="inputRegion">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress" class="col-sm-3 control-label">Улица, дом и т.д.</label>
+    <div class="col-sm-9">
+      <textarea id="inputAddress" class="form-control" rows="3"></textarea>
+    </div>
+  </div>
+  <h3><span class="label label-info">Пострадавшие</span></h3>
+  <div class="form-group">
+    <label class="col-sm-4 control-label"> Тяжесть</label>
+    <label class="col-sm-2 control-label"> Легк.</label>
+    <label class="col-sm-2 control-label"> Сред.</label>
+    <label class="col-sm-2 control-label"> Тяж.</label>
+    <label class="col-sm-2 control-label"> ОТяж.</label>
+    <% for i in 1..4 %>
+      <label class="col-sm-4 control-label"> <%= i %> тип</label>
+      <% for j in 1..4 %>
+                  
+        <div class="col-sm-2 nopadding">
+          <input class="form-control" id="victim<%= i %><%= j %>" onchange="recalc_victims(<%= i %>,<%= j %>);">
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="form-group">     
+    <div class="container-fluid center">
+       <input type="button" class="btn btn-success" value="Создать ДТП" onclick="generateDTP();">
+    </div>
+  </div>
+</form>

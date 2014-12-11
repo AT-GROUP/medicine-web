@@ -2,7 +2,7 @@ var embPlacemark, cord1 = 55.936952, cord2 = 37.343334;
 var myMap, DTP, DTPx, DTPy;
 var lpys, geoLpys = [], cars, geoCars = [];
 var buildFlag, endBuildFlag, res = [], maxDTPQountConst = 100;
-var lastCar = null, lastLPY = null, victims=0, sstime = 0, last_victims;
+var lastCar = null, lastLPY = null, victims=0, victims_matrix = [], sstime = 0, last_victims;
 
 function set_new_progress(pers){
   var div = $('#progress-bar');
@@ -19,7 +19,10 @@ function update_last_victims_div(){
     $('#victims_button').attr('disabled',false);
 }
 
-function recalc_victims(){
+function recalc_victims(i, j){
+  var temp = parseInt($('#victim' + i + j).val(), 10);
+  if(isNaN(temp) || temp < 0)
+    $('#victim' + i + j).val('0');
 }
 
 function reserve_car(){
@@ -48,9 +51,15 @@ function generateDTP(){
     myMap.geoObjects.remove(DTP);
   victims = 0;
   for(var i = 1; i < 5; i++){
-    var temp = parseInt($('#victim' + i).val(), 10);
-    if(!isNaN(temp) && temp > 0)
-      victims += temp;
+    victims_matrix[i] = [];
+    for(var j = 1; j < 5; j++){
+      victims_matrix[i][j] = 0;
+      var temp = parseInt($('#victim' + i + j).val(), 10);
+      if(!isNaN(temp) && temp > 0){
+        victims_matrix[i][j] = temp;
+        victims += temp;
+      }
+    }
   }
   last_victims = victims;
   update_last_victims_div();

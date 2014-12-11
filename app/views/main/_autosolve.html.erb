@@ -1,0 +1,23 @@
+<div class="container-fluid center">
+  <div class="container-fluid center">
+     <input type="button" class="btn btn-success" value="Загрузить информацию о ЛПУ и машинах" onclick="showLPYs();">
+  </div>
+  <input type="button" class="btn btn-success" value="Автоматическое решение" onclick="getDTPData();">  
+</div>
+&nbsp;
+<div id="finishprog" class="container-fluid center nodisplay">
+  <h3><span class="label label-info">Решение завершено.<br /> Можно ознакомиться с результами.</span></h3>
+</div>
+<div id="progressd" class="container-fluid center nodisplay">
+  <div class="panel panel-success">
+    <div class="panel-heading panel-info"><h4>Выполняется решение</h4></div>
+    <div id="autoResults" class="panel-body">
+      <div class="progress">
+        <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;">
+          <span class="sr-only">60% Complete</span>
+        </div>
+      </div>
+      Пожалуйста подождите.
+    </div>
+  </div>
+</div>

@@ -35,89 +35,17 @@
 
 		<div id="menu">
       <div class="tab-content" id="tabMenuContent" >
-        <div class="tab-pane fade active in" id="createDTP" >
-          <form class="form-horizontal" role="form">
-            <h3><span class="label label-info">Адрес</span></h3>
-            <div class="form-group">
-              <label for="inputRegion" class="col-sm-3 control-label">Регион</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="inputRegion">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputAddress" class="col-sm-3 control-label">Улица, дом и т.д.</label>
-              <div class="col-sm-9">
-                <textarea id="inputAddress" class="form-control" rows="3"></textarea>
-              </div>
-            </div>
-            <h3><span class="label label-info">Пострадавшие</span></h3>
-            <div class="form-group">
-              <label for="victim1" class="col-sm-3 control-label">1 тип</label>
-              <div class="col-sm-9">
-                <input type="number" class="form-control" id="victim1" onchange="recalc_victims(1);">
-              </div>
-              <label for="victim2" class="col-sm-3 control-label">2 тип</label>
-              <div class="col-sm-9">
-                <input type="number" class="form-control" id="victim2" onchange="recalc_victims(2);">
-              </div>
-              <label for="victim3" class="col-sm-3 control-label">3 тип</label>
-              <div class="col-sm-9">
-                <input type="number" class="form-control" id="victim3" onchange="recalc_victims(3);">
-              </div>
-              <label for="victim4" class="col-sm-3 control-label">4 тип</label>
-              <div class="col-sm-9">
-                <input type="number" class="form-control" id="victim4" onchange="recalc_victims(4);">
-              </div>
-            </div>
-            <div class="form-group">     
-              <div class="container-fluid center">
-                 <input type="button" class="btn btn-success" value="Создать ДТП" onclick="generateDTP();">
-              </div>
-            </div>
-          </form>
-          
+        <div class="tab-pane fade active in" id="createDTP" > 
+          <%= render 'createdtp' %> 
         </div>
         <div class="tab-pane fade" id="selfSolve" >
           <%= render 'selfsolve' %>
         </div>
         <div class="tab-pane fade" id="autoSolve" >
-          <div class="container-fluid center">
-            <div class="container-fluid center">
-               <input type="button" class="btn btn-success" value="Загрузить информацию о ЛПУ и машинах" onclick="showLPYs();">
-            </div>
-            <input type="button" class="btn btn-success" value="Автоматическое решение" onclick="getDTPData();">  
-          </div>
-&nbsp;
-          <div id="finishprog" class="container-fluid center nodisplay">
-            <h3><span class="label label-info">Решение завершено.<br /> Можно ознакомиться с результами.</span></h3>
-          </div>
-          <div id="progressd" class="container-fluid center nodisplay">
-            <div class="panel panel-success">
-              <div class="panel-heading panel-info"><h4>Выполняется решение</h4></div>
-              <div id="autoResults" class="panel-body">
-                <div class="progress">
-                  <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;">
-                    <span class="sr-only">60% Complete</span>
-                  </div>
-                </div>
-                Пожалуйста подождите.
-              </div>
-            </div>
-          </div>
+          <%= render 'autosolve' %>
         </div>
         <div class="tab-pane fade" id="results" >
-          <div class="panel panel-success">
-            <div class="panel-heading panel-success"><h4>Автоматическое решение</h4></div>
-            <div id="autoRes" class="panel-body">
-              Нет результатов.
-            </div>
-          </div>
-          <div class="panel panel-success">
-            <div class="panel-heading"><h4>Ручное решение</h4></div>
-            <div id="selfRes" class="panel-body">
-              Нет результатов.
-            </div>
-          </div>
+          <%= render 'results' %>
         </div>
       </div>
 		</div>
