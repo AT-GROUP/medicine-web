@@ -14,17 +14,24 @@
   <div class="panel-body">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-5 center">
-          <input id="victims_button" disabled type="button" class="btn btn-danger" value="Установить" onclick="reserve_car();"> 
-        </div>
-        <div class="col-md-7 center">
-          Осталось распределить&nbsp;
-          <div id="last_victims_div">
-            0
+        <label class="col-sm-4 control-label"> Тяжесть</label>
+        <label class="col-sm-2 control-label"> Легк.</label>
+        <label class="col-sm-2 control-label"> Сред.</label>
+        <label class="col-sm-2 control-label"> Тяж.</label>
+        <label class="col-sm-2 control-label"> ОТяж.</label>
+      </div>
+        <% for i in 1..4 %>
+          <div class="row">
+            <label class="col-sm-4 control-label"> <%= i %> тип</label>
+            <% for j in 1..4 %>
+                        
+              <div class="col-sm-2 nopadding">
+                <input type="button" class="btn btn-danger nopadding btn-block " id="btn-victim<%= i %><%= j %>" onclick="reserve_car(<%= i %>, <%= j %>);" value="0">
+              </div>
+            <% end %>
           </div>
-          &nbsp;пострадавших. 
-        </div>
-      </div>  
+        <% end %>
+      </div> 
     </div>  
   </div>
 </div>
@@ -43,7 +50,42 @@
     </div>
   </div>
   <div class="panel-body">
-    Panel content
+    <div class="container-fluid">
+      <div class="row">
+        <label class="col-sm-4 control-label"> Тяжесть</label>
+        <label class="col-sm-2 control-label"> Легк.</label>
+        <label class="col-sm-2 control-label"> Сред.</label>
+        <label class="col-sm-2 control-label"> Тяж.</label>
+        <label class="col-sm-2 control-label"> ОТяж.</label>
+      </div>
+        <% for i in 1..4 %>
+          <div class="row">
+            <label class="col-sm-4 control-label"> <%= i %> тип</label>
+            <% for j in 1..4 %>
+                        
+              <div class="col-sm-2 nopadding">
+                <input type="button" class="btn btn-danger nopadding btn-block " id="btn-victim<%= i %><%= j %>" onclick="reserve_lpy(<%= i %>, <%= j %>);" value="0">
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div> 
+    </div>  
+  </div>
+</div>
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+      <h4> Управление решением </h4> 
+  </div>
+  <div class="panel-body">
+    <div class="container-fluid">
+      <input type="button" class="btn btn-danger btn-block " id="btn-victim<%= i %><%= j %>" onclick="reset_selfsolve();" value="Начать решение сначала">
+      <row>
+        <input type="button" class="col-sm-6 btn btn-primary  id="btn-victim<%= i %><%= j %>" onclick="show_jams();" value="Показать пробки">
+        <input type="button" class="col-sm-6 btn btn-primary " id="btn-victim<%= i %><%= j %>" onclick="hide_jams();" value="Скрыть пробки">
+      </row>
+    </div>  
   </div>
 </div>
 
