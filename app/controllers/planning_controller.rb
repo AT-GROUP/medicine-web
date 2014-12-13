@@ -1,21 +1,30 @@
 class PlanningController < ApplicationController
   def senddtp
     params.permit(:result)
-    render text: params[:result]
+    solve_res = auto_solve(params[:result])
+    render text: solve_res.to_s
   end
 
-  def prepare_data
+  def prepare_in_data(raw_data)
+    #TODO
     puts 'data_prepared'
+    return raw_data
   end
 
-  def auto_solve
+  def prepare_out_data(raw_data)
+    #TODO
+    puts 'data_prepared'
+    return raw_data
+  end
+
+  def auto_solve(data)
     #Ok, let's wait end of previous process
     while File.exist?('lib/planer/lock')
       sleep(1.0/10.0)
     end
 
     File.open("lib/planer/lock", 'w') {|f| f.puts("locked")}
-    data = prepare_data
+    data = prepare_in_data(data)
     #TODO replace with really unic string
     cur_time = Time.now.to_i.to_s
     outfile = 'lib/planer/_input/' + cur_time + '_task.pddl'
@@ -24,6 +33,8 @@ class PlanningController < ApplicationController
     res = `cd lib/planer/ && ./plan _input/domain_new.pddl _input/p01_new.pddl _output/#{cur_time}_task.pddl`
     #TODO maybe need .best solution?
     result = File.open("lib/planer/_output/#{cur_time}_task.pddl", 'r') {|f| f.read}
+    #TODO transform data
+    result = prepare_out_data(result)
 
     #clear block
     #delete task
@@ -41,6 +52,6 @@ class PlanningController < ApplicationController
     #unlock planer
     File.delete("lib/planer/lock")
 
-    render json: result.to_json
+    return result
   end
 end
