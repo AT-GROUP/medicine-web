@@ -1,6 +1,7 @@
 MedicineWeb::Application.routes.draw do
   get 'ajax/get_lpys' => 'ajax#get_lpys'
   post 'planning/senddtp' => 'planning#senddtp'
+  post 'planning/auto_solve' => 'planning#auto_solve'
   resources :medical_institutions do as_routes end
   root 'main#index'
   
