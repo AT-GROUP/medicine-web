@@ -1,5 +1,5 @@
 #map{
-  position: absolute;
+  position: fixed;
   right: 30%;
   left:0px;
   top: 50px;
@@ -12,6 +12,10 @@
   top: 50px;
   bottom: 3px;
   width: 29%;
+}
+
+.whiteback{
+  background-color: white;
 }
 
 .center{

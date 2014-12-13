@@ -1,49 +1,25 @@
+//------------- переменные ----------------
+// create
 var embPlacemark, cord1 = 55.936952, cord2 = 37.343334;
 var myMap, DTP, DTPx, DTPy;
-var lpys, geoLpys = [], cars, geoCars = [];
 var buildFlag, endBuildFlag, res = [], maxDTPQountConst = 100;
-var lastCar = null, lastLPY = null, victims=0, victims_matrix = [], sstime = 0, last_victims;
+var victims=0, victims_matrix = [];
+// self
+var lpys, geoLpys = [], cars, geoCars = [];
+var lastCar = null, lastLPY = null, vict_cars = [], vict_lpys = [], sstime = 0, last_vict_cars, last_vict_lpys;
+// auto
 
-function set_new_progress(pers){
-  var div = $('#progress-bar');
-  var intPers = Math.round(pers)*5;
-  div.css('width', intPers + '%');
-  div.text(' ' + intPers + '%');
-}
+// results
+var auto_res, self_res;
 
-function update_last_victims_div(){
-  $('#last_victims_div').html(last_victims);
-  if(last_victims <= 0)
-    $('#victims_button').attr('disabled', true);
-  else
-    $('#victims_button').attr('disabled',false);
-}
 
+
+//------------- функции -------------------
+// create
 function recalc_victims(i, j){
   var temp = parseInt($('#victim' + i + j).val(), 10);
   if(isNaN(temp) || temp < 0)
     $('#victim' + i + j).val('0');
-}
-
-function reserve_car(){
-  if(DTPx == null || DTPy == null){
-    alert("Поблизости нет ДТП!");
-    return;
-  }
-  if (lastCar == null){
-    alert("Выберите машину на карте.");
-    return;
-  }
-  last_victims--;
-  update_last_victims_div();
-  ymaps.route([ { type: 'wayPoint', point: [DTPx, DTPy] }, 
-                { type: 'wayPoint', point: lastCar.geometry.getCoordinates() } 
-             ]).done(function (route) {
-                sstime += route.getJamsTime();
-                geoCars.remove(lastCar);
-                lastCar = null;
-             });
-  
 }
 
 function generateDTP(){
@@ -61,8 +37,8 @@ function generateDTP(){
       }
     }
   }
-  last_victims = victims;
-  update_last_victims_div();
+  update_selfsolve();
+
   var address = $('#inputRegion').val() + ', ' + $('#inputAddress').val();
 
   ymaps.geocode(address, { results: 1 }).then(function (res) {
@@ -94,6 +70,100 @@ function generateDTP(){
     // При щелчк
 }  
 
+
+// self
+function update_lpys_btn(i, j){
+  var btn = $('#btn-lpy' + i + j);
+  if(vict_lpys[i][j] <= 0){
+    btn.val(0);
+    btn.attr('disabled', true);
+  }
+  else
+  {
+    btn.val(vict_lpys[i][j]);
+    btn.attr('disabled', false);
+  }
+}
+
+function update_cars_btn(i, j){
+  var btn = $('#btn-car' + i + j);
+  if(vict_cars[i][j] <= 0){
+    btn.val(0);
+    btn.attr('disabled', true);
+  }
+  else
+  {
+    btn.val(vict_cars[i][j]);
+    btn.attr('disabled', false);
+  }
+}
+
+function update_selfsolve(){
+  sstime = 0;
+  last_vict_cars = victims;
+  last_vict_lpys = victims;
+  for(var i = 1; i < 5; i++){
+    vict_cars[i] = [];
+    vict_lpys[i] = [];
+    for(var j = 1; j < 5; j++){
+      vict_cars[i][j] = victims_matrix[i][j];
+      vict_lpys[i][j] = victims_matrix[i][j];
+      update_cars_btn(i, j);
+      update_lpys_btn(i, j);
+    }
+  }
+
+}
+
+function reserve_car(i, j){
+  if(DTPx == null || DTPy == null){
+    alert("Поблизости нет ДТП!");
+    return;
+  }
+  if (lastCar == null){
+    alert("Выберите машину на карте.");
+    return;
+  }
+
+  last_vict_cars--;
+  vict_cars[i][j]--;
+  update_cars_btn(i, j);
+
+  ymaps.route([ { type: 'wayPoint', point: [DTPx, DTPy] }, 
+                { type: 'wayPoint', point: lastCar.geometry.getCoordinates() } 
+             ]).done(function (route) {
+                sstime += route.getJamsTime();
+                geoCars.remove(lastCar);
+                lastCar = null;
+             });
+  
+}
+
+function reserve_lpy(i, j){
+  if(DTPx == null || DTPy == null){
+    alert("Поблизости нет ДТП!");
+    return;
+  }
+  if (lastLPY == null){
+    alert("Выберите ЛПУ на карте.");
+    return;
+  }
+
+  last_vict_lpys--;
+  vict_lpys[i][j]--;
+  update_lpys_btn(i, j);
+
+  ymaps.route([ { type: 'wayPoint', point: [DTPx, DTPy] }, 
+                { type: 'wayPoint', point: lastLPY.geometry.getCoordinates() } 
+             ]).done(function (route) {
+                sstime += route.getJamsTime();
+                geoLpys.remove(lastLPY);
+                lastLPY = null;
+             });
+  
+}
+
+
 function showLPYs(){
   var htmlresp;
 
@@ -111,7 +181,7 @@ function showLPYs(){
     lpys = JSON.parse(htmlresp);
     
     for(var i = 0; i < lpys.length; ++i){
-      geoLpys.add( new ymaps.Placemark([lpys[i].x_coord, lpys[i].y_coord], {
+       var plmark = new ymaps.Placemark([lpys[i].x_coord, lpys[i].y_coord], {
         balloonContent: lpys[i].LPYname,
         }, {
             iconLayout: 'default#image',
@@ -125,7 +195,11 @@ function showLPYs(){
             },
             balloonCloseButton: false,   
             hideIconOnBalloonOpen: false
-      }))          
+      });
+      plmark.events.add("click", function (e) {
+        lastLPY = e._Jo.target;
+      });
+      geoLpys.add(plmark);      
     }
     myMap.geoObjects.add(geoLpys);
   } 
@@ -140,8 +214,6 @@ function hideCars(){
   geoCars.removeAll();
 }
 
-
-var sc;
 function showCars(){
   var htmlresp;
 
@@ -177,7 +249,6 @@ function showCars(){
       plmark.events.add("click", function (e) {
         lastCar = e._Jo.target;
       });
-      sc = plmark;
       geoCars.add(plmark);      
     }
     myMap.geoObjects.add(geoCars);
@@ -185,30 +256,13 @@ function showCars(){
   });
 }
 
-function show(){
-	var shirv = document.getElementById("shir").value;
-	var longv = document.getElementById("long").value;
-	ymaps.route([
-      { type: 'wayPoint', point: [shirv, longv] },
-      { type: 'wayPoint', point: [55.811511, 37.312518] }
-  ], {
-      mapStateAutoApply: true
-  }).then(function (route) {
-    route.getPaths().options.set({
-        // в балуне выводим только информацию о времени движения с учетом пробок
-        balloonContentBodyLayout: ymaps.templateLayoutFactory.createClass('{{ properties.humanJamsTime }}'),
-        // можно выставить настройки графики маршруту
-        strokeColor: '008888ff',
-        opacity: 0.9
-    });
-    document.getElementById("time").value = route.getJamsTime();
-    document.getElementById("dlin").value = route.getLength();
-    // добавляем маршрут на карту
-    myMap.geoObjects.add(route);
-  });
+// auto
+function set_new_progress(pers){
+  var div = $('#progress-bar');
+  var intPers = Math.round(pers)*5;
+  div.css('width', intPers + '%');
+  div.text(' ' + intPers + '%');
 }
-
-
 
 function makeResJson(){
   if(res.length == 0 )
@@ -286,3 +340,16 @@ function getRouteData(){
   }
   set_new_progress(buildFlag/endBuildFlag*20);
 }
+// results
+function set_selfsolve_results(){
+  if(last_vict_cars > 0 || last_vict_lpys > 0){
+    alert('Вы еще не завершили решение.');
+    return;
+  }
+  
+  $('#selfRes').html('Затраченное время на доставку пострадавших в ЛПУ: ' + Math.floor(sstime/3600) + ' часов ' + Math.floor(sstime - Math.floor(sstime/60)*60) + ' минут ' + Math.floor(sstime - Math.floor(sstime/3600) * 3600) + ' секунд.');
+  alert('Ознакомиться с результатами можно на вкладке "Результаты".);
+
+}
+
+
