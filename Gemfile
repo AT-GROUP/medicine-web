@@ -40,3 +40,5 @@ gem 'spring',        group: :development
 
 gem 'active_scaffold'
 gem 'therubyracer'
+
+gem 'railroady'

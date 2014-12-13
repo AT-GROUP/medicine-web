@@ -1,6 +1,5 @@
 class AjaxController < ApplicationController
   layout false
-  Max_interval = 60
   def get_lpys
     @lpys = MedicalInstitution.where("latitude > :startx AND latitude < :endx AND longitude > :starty AND longitude < :endy",
             {startx: params[:startx], endx: params[:endx], starty: params[:starty], endy: params[:endy]})
@@ -19,41 +18,71 @@ class AjaxController < ApplicationController
     list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
     list_with_slots = []
     list.each do |lpy|
-      if (lpy.surgery >= surgery and surgery > 0) or (lpy.neuro >= neuro and neuro > 0) or
-          (lpy.burns >= burns and burns > 0) or (lpy.reanimation >= reanimation and reanimation > 0)
+      if (lpy.surgery >= 1 and surgery > 0) or (lpy.neuro >= 1 and neuro > 0) or
+          (lpy.burn >= 1 and burns > 0) or (lpy.reanimation >= 1 and reanimation > 0)
         list_with_slots << lpy
       end
     end
-
     return list_with_slots
   end
 
   def add_new_car_locations
     #TODO
     all_lpy = MedicalInstitution.all
-    car_locations = []
+    all_cars = []
     timst = Time.now.to_i
     all_lpy.each do |lpy|
-      coords = {}
-      coords[:lat] = lpy.latitude
-      coords[:lon] = lpy.longitude
+      car_prop = {}
+      car_prop[:lat] = lpy.latitude
+      car_prop[:lon] = lpy.longitude
       cnt = rand(7)
       for i in 0...cnt
-        car_locations << coords
+        car_type = rand(3)
+        if car_type == 0
+          car_prop[:type] = 'A'
+        else if car_type == 1
+          car_prop[:type] = 'B'
+        else
+          car_prop[:type] = 'C'
+        end
+        team_type = rand(3)
+        #M - medic, P - paramedic, PM - paramedic/medic
+        if team_type == 0
+          car_prop[:team] = 'M'
+        else if team_type == 1
+          car_prop[:team] = 'P'
+        else
+          car_prop[:team] = 'PM'
+        end
+        all_cars << car_prop
       end
     end
-    Car.create(car_locations.to_s, timest)
+    Car.create(all_cars.to_s, timest)
+    Car.save
   end
 
   def get_last_cars_location
+    max_interval = 60
     last_locations = Car.last
 
-    if last_locations == nil or last_locations.time - Time.now.to_i > Max_interval
+    if last_locations == nil or last_locations.time - Time.now.to_i > max_interval
       add_new_car_locations
       last_locations = Car.last
     end
 
     return last_locations
+  end
+
+  def get_last_cars_location_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+    all_cars = get_last_cars_location
+    cars_in_rect = []
+    all_cars.each do |loc|
+      if loc[:lat] >= lower_latitude and loc[:lat] <= upper_latitude and
+        loc[:lon] >= lower_longitude and loc[:lon] <= upper_longitude
+        cars_in_rect << loc
+      end
+    end
+    return cars_in_rect
   end
 
   def get_closest_car_state(time_to_find)

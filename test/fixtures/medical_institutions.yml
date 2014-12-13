@@ -3,11 +3,19 @@
 one:
   name: MyText
   region: MyText
-  x_coord: 1.5
-  y_coord: 1.5
+  latitude: 1.5
+  longitude: 1.5
+  surgery: 1
+  neuro: 1
+  burn: 1
+  reanimation: 1
 
 two:
   name: MyText
   region: MyText
-  x_coord: 1.5
-  y_coord: 1.5
+  latitude: 1.5
+  longitude: 1.5
+  surgery: 1
+  neuro: 1
+  burn: 1
+  reanimation: 1

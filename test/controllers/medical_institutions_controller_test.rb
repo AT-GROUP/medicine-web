@@ -18,7 +18,7 @@ class MedicalInstitutionsControllerTest < ActionController::TestCase
 
   test "should create medical_institution" do
     assert_difference('MedicalInstitution.count') do
-      post :create, medical_institution: { name: @medical_institution.name, region: @medical_institution.region, x_coord: @medical_institution.x_coord, y_coord: @medical_institution.y_coord }
+      post :create, medical_institution: { burn: @medical_institution.burn, latitude: @medical_institution.latitude, longitude: @medical_institution.longitude, name: @medical_institution.name, neuro: @medical_institution.neuro, reanimation: @medical_institution.reanimation, region: @medical_institution.region, surgery: @medical_institution.surgery }
     end
 
     assert_redirected_to medical_institution_path(assigns(:medical_institution))
@@ -35,7 +35,7 @@ class MedicalInstitutionsControllerTest < ActionController::TestCase
   end
 
   test "should update medical_institution" do
-    patch :update, id: @medical_institution, medical_institution: { name: @medical_institution.name, region: @medical_institution.region, x_coord: @medical_institution.x_coord, y_coord: @medical_institution.y_coord }
+    patch :update, id: @medical_institution, medical_institution: { burn: @medical_institution.burn, latitude: @medical_institution.latitude, longitude: @medical_institution.longitude, name: @medical_institution.name, neuro: @medical_institution.neuro, reanimation: @medical_institution.reanimation, region: @medical_institution.region, surgery: @medical_institution.surgery }
     assert_redirected_to medical_institution_path(assigns(:medical_institution))
   end
 
