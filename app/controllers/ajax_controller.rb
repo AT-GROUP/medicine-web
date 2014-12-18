@@ -13,6 +13,50 @@ class AjaxController < ApplicationController
     return list
   end
 
+  def get_lpy_with_surgery(lower_latitude = -1, upper_latitude = 200, lower_logitude = -1, upper_latitude = 200)
+    list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+    list_with_slots = []
+    list.each do |lpy|
+      if lpy.surgery > 0
+        list_with_slots << lpy
+      end
+    end
+    return list_with_slots
+  end
+
+  def get_lpy_with_neuro(lower_latitude = -1, upper_latitude = 200, lower_logitude = -1, upper_latitude = 200)
+    list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+    list_with_slots = []
+    list.each do |lpy|
+      if lpy.neuro > 0
+        list_with_slots << lpy
+      end
+    end
+    return list_with_slots
+  end
+
+  def get_lpy_with_burn(lower_latitude = -1, upper_latitude = 200, lower_logitude = -1, upper_latitude = 200)
+    list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+    list_with_slots = []
+    list.each do |lpy|
+      if lpy.burn > 0
+        list_with_slots << lpy
+      end
+    end
+    return list_with_slots
+  end
+
+  def get_lpy_with_reanimation(lower_latitude = -1, upper_latitude = 200, lower_logitude = -1, upper_latitude = 200)
+    list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+    list_with_slots = []
+    list.each do |lpy|
+      if lpy.reanimation > 0
+        list_with_slots << lpy
+      end
+    end
+    return list_with_slots
+  end
+
   def get_lpy_in_rect_with_free_slots(lower_latitude, upper_latitude, lower_logitude, upper_longitude,
                               surgery, neuro, burns, reanimation)
     list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
