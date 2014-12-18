@@ -1,4 +1,32 @@
 class PlanningController < ApplicationController
+  def cap_solve
+    params.permit(:car, :surgery, :neuro, :reanimation, :burn,
+                  :total_victim, :surgery_victim, :neuro_victim, :reanimation_victim, :burn_victim)
+    surgery_num = params[:surgery_victim]
+    neuro_num = params[:neuro_victim]
+    reanimation_num = params[:reanimation_victim]
+    burn_num = params[:burn_victim]
+    total_num = params[:total_victim]
+
+    ans = 0.0
+    params[:car].sort[0..total_num - 1].each do |car|
+      ans += car
+    end
+    surgery_list = params[:surgery].sort[0..surgery_num - 1].each do |surg|
+      ans += surg
+    end
+    neuro_list = params[:neuro].sort[0..neuro_num - 1].each do |neur|
+      ans += neur
+    end
+    reanimation_list = params[:reanimation].sort[0..reanimation_num - 1].each do |rean|
+      ans += rean
+    end
+    burn_list = [:burn].sort[0..burn_num - 1].each do |brn|
+      ans += brn
+    end
+    render text: ans.to_s
+  end
+
   def senddtp
     params.permit(:result)
     solve_res = auto_solve(params[:result])
