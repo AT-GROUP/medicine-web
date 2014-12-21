@@ -5,15 +5,35 @@ class AjaxController < ApplicationController
             {startx: params[:startx], endx: params[:endx], starty: params[:starty], endy: params[:endy]})
   end
 
-  def get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
-    list = MedicalInstitution.where('latitude >= ' + lower_latitude.to_s + ' AND latitude <= ' +
-                                                    upper_latitude.to_s + ' AND longitude >= ' +
-                                                    lower_longitude.to_s + ' AND longitude <= ' +
-                                                    upper_longitude.to_s)
-    return list
+  def get_lpy_in_rectangle
+    list = MedicalInstitution.where('latitude >= ' + params[:lower_latitude] .to_s + ' AND latitude <= ' +
+                                                    params[:upper_latitude].to_s + ' AND longitude >= ' +
+                                                    params[:lower_longitude].to_s + ' AND longitude <= ' +
+                                                    params[:upper_longitude].to_s)
+    render json: list
   end
 
-  def get_lpy_with_surgery(lower_latitude = -1, upper_latitude = 200, lower_logitude = -1, upper_latitude = 200)
+  def get_lpy_with_surgery
+    if params[:lower_latitude] == nil
+      lower_latitude = -1
+    else
+      lower_latitude = params[:lower_latitude]
+    end
+    if params[:upper_latitude] == nil
+      lower_latitude = 200
+    else
+      upper_latitude = params[:upper_latitude]
+    end
+    if params[:lower_longitude] == nil
+      lower_longitude = -1
+    else
+      lower_longitude = params[:lower_longitude]
+    end
+    if params[:upper_longitude] == nil
+      upper_longitude = -1
+    else
+      upper_longitude = params[:upper_longitude]
+    end
     list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
     list_with_slots = []
     list.each do |lpy|
@@ -21,10 +41,30 @@ class AjaxController < ApplicationController
         list_with_slots << lpy
       end
     end
-    return list_with_slots
+    render json: list_with_slots
   end
 
-  def get_lpy_with_neuro(lower_latitude = -1, upper_latitude = 200, lower_logitude = -1, upper_latitude = 200)
+  def get_lpy_with_neuro
+    if params[:lower_latitude] == nil
+      lower_latitude = -1
+    else
+      lower_latitude = params[:lower_latitude]
+    end
+    if params[:upper_latitude] == nil
+      lower_latitude = 200
+    else
+      upper_latitude = params[:upper_latitude]
+    end
+    if params[:lower_longitude] == nil
+      lower_longitude = -1
+    else
+      lower_longitude = params[:lower_longitude]
+    end
+    if params[:upper_longitude] == nil
+      upper_longitude = -1
+    else
+      upper_longitude = params[:upper_longitude]
+    end
     list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
     list_with_slots = []
     list.each do |lpy|
@@ -32,10 +72,30 @@ class AjaxController < ApplicationController
         list_with_slots << lpy
       end
     end
-    return list_with_slots
+    render json: list_with_slots
   end
 
-  def get_lpy_with_burn(lower_latitude = -1, upper_latitude = 200, lower_logitude = -1, upper_latitude = 200)
+  def get_lpy_with_burn
+    if params[:lower_latitude] == nil
+      lower_latitude = -1
+    else
+      lower_latitude = params[:lower_latitude]
+    end
+    if params[:upper_latitude] == nil
+      lower_latitude = 200
+    else
+      upper_latitude = params[:upper_latitude]
+    end
+    if params[:lower_longitude] == nil
+      lower_longitude = -1
+    else
+      lower_longitude = params[:lower_longitude]
+    end
+    if params[:upper_longitude] == nil
+      upper_longitude = -1
+    else
+      upper_longitude = params[:upper_longitude]
+    end
     list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
     list_with_slots = []
     list.each do |lpy|
@@ -43,10 +103,30 @@ class AjaxController < ApplicationController
         list_with_slots << lpy
       end
     end
-    return list_with_slots
+    render json: list_with_slots
   end
 
-  def get_lpy_with_reanimation(lower_latitude = -1, upper_latitude = 200, lower_logitude = -1, upper_latitude = 200)
+  def get_lpy_with_reanimation
+    if params[:lower_latitude] == nil
+      lower_latitude = -1
+    else
+      lower_latitude = params[:lower_latitude]
+    end
+    if params[:upper_latitude] == nil
+      lower_latitude = 200
+    else
+      upper_latitude = params[:upper_latitude]
+    end
+    if params[:lower_longitude] == nil
+      lower_longitude = -1
+    else
+      lower_longitude = params[:lower_longitude]
+    end
+    if params[:upper_longitude] == nil
+      upper_longitude = -1
+    else
+      upper_longitude = params[:upper_longitude]
+    end
     list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
     list_with_slots = []
     list.each do |lpy|
@@ -54,9 +134,10 @@ class AjaxController < ApplicationController
         list_with_slots << lpy
       end
     end
-    return list_with_slots
+    render json: list_with_slots
   end
 
+  #delete it?
   def get_lpy_in_rect_with_free_slots(lower_latitude, upper_latitude, lower_logitude, upper_longitude,
                               surgery, neuro, burns, reanimation)
     list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
@@ -114,15 +195,15 @@ class AjaxController < ApplicationController
       last_locations = Car.last
     end
 
-    return last_locations
+    render plain: last_locations
   end
 
-  def get_last_cars_location_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+  def get_last_cars_location_in_rectangle
     all_cars = get_last_cars_location
     cars_in_rect = []
     all_cars.each do |loc|
-      if loc[:lat] >= lower_latitude and loc[:lat] <= upper_latitude and
-        loc[:lon] >= lower_longitude and loc[:lon] <= upper_longitude
+      if loc[:lat] >= params[:lower_latitude] and loc[:lat] <= params[:upper_latitude] and
+        loc[:lon] >= params[:lower_longitude] and loc[:lon] <= params[:upper_longitude]
         cars_in_rect << loc
       end
     end
