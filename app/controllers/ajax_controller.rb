@@ -195,7 +195,7 @@ class AjaxController < ApplicationController
       end
     end
     cr = Car.create
-    cr.locations = all_cars.to_s
+    cr.locations = all_cars.to_json
     cr.time = timest
     cr.save
   end
