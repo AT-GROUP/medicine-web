@@ -1,5 +1,11 @@
 MedicineWeb::Application.routes.draw do
   get 'ajax/get_lpys' => 'ajax#get_lpys'
+  get 'ajax/get_lpy_in_rectangle' => 'ajax#get_lpy_in_rectangle'
+  get 'ajax/get_lpy_with_surgery' => 'ajax#get_lpy_with_surgery'
+  get 'ajax/get_lpy_with_neuro' => 'ajax#get_lpy_with_neuro'
+  get 'ajax/get_lpy_with_burn' => 'ajax#get_lpy_with_burn'
+  get 'ajax/get_lpy_with_reanimation' => 'ajax#get_lpy_with_reanimation'
+  get 'ajax/get_last_cars_location' => 'ajax#get_last_cars_location'
   post 'planning/senddtp' => 'planning#senddtp'
   post 'planning/auto_solve' => 'planning#auto_solve'
   resources :medical_institutions do as_routes end

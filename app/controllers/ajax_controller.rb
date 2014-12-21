@@ -13,6 +13,14 @@ class AjaxController < ApplicationController
     render json: list
   end
 
+  def get_lpy_in_rect(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+    list = MedicalInstitution.where('latitude >= ' + lower_latitude .to_s + ' AND latitude <= ' +
+                                                    upper_latitude.to_s + ' AND longitude >= ' +
+                                                    lower_longitude.to_s + ' AND longitude <= ' +
+                                                    upper_longitude.to_s)
+    render json: list
+  end
+
   def get_lpy_with_surgery
     if params[:lower_latitude] == nil
       lower_latitude = -1
@@ -34,7 +42,7 @@ class AjaxController < ApplicationController
     else
       upper_longitude = params[:upper_longitude]
     end
-    list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+    list = get_lpy_in_rect(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
     list_with_slots = []
     list.each do |lpy|
       if lpy.surgery > 0
@@ -65,7 +73,7 @@ class AjaxController < ApplicationController
     else
       upper_longitude = params[:upper_longitude]
     end
-    list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+    list = get_lpy_in_rect(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
     list_with_slots = []
     list.each do |lpy|
       if lpy.neuro > 0
@@ -96,7 +104,7 @@ class AjaxController < ApplicationController
     else
       upper_longitude = params[:upper_longitude]
     end
-    list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+    list = get_lpy_in_rect(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
     list_with_slots = []
     list.each do |lpy|
       if lpy.burn > 0
@@ -127,7 +135,7 @@ class AjaxController < ApplicationController
     else
       upper_longitude = params[:upper_longitude]
     end
-    list = get_lpy_in_rectangle(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
+    list = get_lpy_in_rect(lower_latitude, upper_latitude, lower_longitude, upper_longitude)
     list_with_slots = []
     list.each do |lpy|
       if lpy.reanimation > 0
@@ -155,7 +163,7 @@ class AjaxController < ApplicationController
     #TODO
     all_lpy = MedicalInstitution.all
     all_cars = []
-    timst = Time.now.to_i
+    timest = Time.now.to_i
     all_lpy.each do |lpy|
       car_prop = {}
       car_prop[:lat] = lpy.latitude
@@ -165,37 +173,43 @@ class AjaxController < ApplicationController
         car_type = rand(3)
         if car_type == 0
           car_prop[:type] = 'A'
-        else if car_type == 1
+        end
+        if car_type == 1
           car_prop[:type] = 'B'
-        else
+        end
+        if car_type == 2
           car_prop[:type] = 'C'
         end
         team_type = rand(3)
         #M - medic, P - paramedic, PM - paramedic/medic
         if team_type == 0
           car_prop[:team] = 'M'
-        else if team_type == 1
+        end
+        if team_type == 1
           car_prop[:team] = 'P'
-        else
+        end
+        if team_type == 2
           car_prop[:team] = 'PM'
         end
         all_cars << car_prop
       end
     end
-    Car.create(all_cars.to_s, timest)
-    Car.save
+    cr = Car.create
+    cr.locations = all_cars.to_s
+    cr.time = timest
+    cr.save
   end
 
   def get_last_cars_location
     max_interval = 60
     last_locations = Car.last
 
-    if last_locations == nil or last_locations.time - Time.now.to_i > max_interval
+    if last_locations == nil or (last_locations != nil and last_locations.time - Time.now.to_i > max_interval)
       add_new_car_locations
       last_locations = Car.last
     end
 
-    render plain: last_locations
+    render json: last_locations
   end
 
   def get_last_cars_location_in_rectangle
@@ -207,7 +221,7 @@ class AjaxController < ApplicationController
         cars_in_rect << loc
       end
     end
-    return cars_in_rect
+    render json: cars_in_rect
   end
 
   def get_closest_car_state(time_to_find)
