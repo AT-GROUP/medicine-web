@@ -18,7 +18,6 @@ class AjaxController < ApplicationController
                                                     upper_latitude.to_s + ' AND longitude >= ' +
                                                     lower_longitude.to_s + ' AND longitude <= ' +
                                                     upper_longitude.to_s)
-    render json: list
   end
 
   def get_lpy_with_surgery
