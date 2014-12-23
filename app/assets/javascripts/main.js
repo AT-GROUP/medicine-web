@@ -458,8 +458,7 @@ function get_sum_victs(j){
   var res = 0;
 
   for(var i = 1; i < 5; i++)
-    res += victims_matrix[i][j];
-  alert(res);
+    res += victims_matrix[j][i];
   return res;
 }
 
