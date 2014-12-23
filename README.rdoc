@@ -1,10 +1,9 @@
 == README
 
 Для запуска проекта на linux необходимо (команды установки приведены для ubuntu)
-1. Установить rvm
-2. С помощью rvm установить ruby версии 1.9.3 и выше
-3. Установить bundler
-4. Установить ruby on rails (с помощью bundler или как пакет в системе)
+1. Установить rvm '\curl -sSL https://get.rvm.io | bash -s stable'
+2. С помощью rvm установить ruby версии 1.9.3 и выше 'rvm install ruby_version'
+3. Установить bundler 'gem install bundler'
 5. Скопировать файлы проекта
 6. В папке с проектом запустить команду 'bundle install'
 7. В папке с проектом запустить команду 'rails s'
