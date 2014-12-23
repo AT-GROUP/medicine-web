@@ -5,20 +5,30 @@ class PlanningController < ApplicationController
     ans = 0.0
     p params[:result]
     res = JSON.parse params[:result]
-    res[0].sort[0..params[:total_victim].to_i - 1].each do |car|
-      ans += car
+    if params[:total_victim].to_i != 0
+      res[0].sort[0..params[:total_victim].to_i - 1].each do |car|
+        ans += car
+      end
     end
-    surgery_list = res[1].sort[0..params[:surgery_victim].to_i - 1].each do |surg|
-      ans += surg
+    if params[:surgery_victim].to_i != 0
+      surgery_list = res[1].sort[0..params[:surgery_victim].to_i - 1].each do |surg|
+        ans += surg
+      end
     end
-    neuro_list = res[2].sort[0..params[:neuro_victim].to_i - 1].each do |neur|
-      ans += neur
+    if params[:neuro_victim].to_i != 0
+      neuro_list = res[2].sort[0..params[:neuro_victim].to_i - 1].each do |neur|
+        ans += neur
+      end
     end
-    reanimation_list = res[3].sort[0..params[:reanimation_victim].to_i - 1].each do |rean|
-      ans += rean
+    if params[:reanimation_victim].to_i != 0
+      reanimation_list = res[3].sort[0..params[:reanimation_victim].to_i - 1].each do |rean|
+        ans += rean
+      end
     end
-    burn_list = res[4].sort[0..params[:burn_victim].to_i - 1].each do |brn|
-      ans += brn
+    if params[:burn_victim].to_i != 0
+      burn_list = res[4].sort[0..params[:burn_victim].to_i - 1].each do |brn|
+        ans += brn
+      end
     end
     render text: ans.to_s
   end
