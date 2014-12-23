@@ -7,7 +7,7 @@ MedicineWeb::Application.routes.draw do
   get 'ajax/get_lpy_with_reanimation' => 'ajax#get_lpy_with_reanimation'
   get 'ajax/get_last_cars_location' => 'ajax#get_last_cars_location'
   post 'planning/senddtp' => 'planning#senddtp'
-  post 'planning/auto_solve' => 'planning#auto_solve'
+  post 'planning/cap_solve' => 'planning#cap_solve'
   resources :medical_institutions do as_routes end
   root 'main#index'
   

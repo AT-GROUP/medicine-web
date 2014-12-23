@@ -1,19 +1,23 @@
+require 'json'
+
 class PlanningController < ApplicationController
   def cap_solve
     ans = 0.0
-    params[:car].sort[0..params[:total_victim] - 1].each do |car|
+    p params[:result]
+    res = JSON.parse params[:result]
+    res[0].sort[0..params[:total_victim].to_i - 1].each do |car|
       ans += car
     end
-    surgery_list = params[:surgery].sort[0..params[:surgery_victim] - 1].each do |surg|
+    surgery_list = res[1].sort[0..params[:surgery_victim].to_i - 1].each do |surg|
       ans += surg
     end
-    neuro_list = params[:neuro].sort[0..params[:neuro_victim] - 1].each do |neur|
+    neuro_list = res[2].sort[0..params[:neuro_victim].to_i - 1].each do |neur|
       ans += neur
     end
-    reanimation_list = params[:reanimation].sort[0..params[:reanimation_victim] - 1].each do |rean|
+    reanimation_list = res[3].sort[0..params[:reanimation_victim].to_i - 1].each do |rean|
       ans += rean
     end
-    burn_list = [:burn].sort[0..params[:burn_victim] - 1].each do |brn|
+    burn_list = res[4].sort[0..params[:burn_victim].to_i - 1].each do |brn|
       ans += brn
     end
     render text: ans.to_s
