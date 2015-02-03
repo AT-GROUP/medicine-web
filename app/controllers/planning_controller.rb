@@ -5,32 +5,68 @@ class PlanningController < ApplicationController
     ans = 0.0
     p params[:result]
     res = JSON.parse params[:result]
+    maxtc = 0.0
+    mintc = 1000000.0
+    maxtl = 0.0
+    mintl = 1000000.0
     if params[:total_victim].to_i != 0
       res[0].sort[0..params[:total_victim].to_i - 1].each do |car|
         ans += car
+        if car > maxtc
+          maxtc = car
+        end
+        if car < mintc
+          mintc = car
+        end
       end
     end
     if params[:surgery_victim].to_i != 0
       surgery_list = res[1].sort[0..params[:surgery_victim].to_i - 1].each do |surg|
         ans += surg
+        if surg > maxtl
+          maxtl = surg
+        end
+        if surg < mintl
+          mintl = surg
+        end
       end
     end
     if params[:neuro_victim].to_i != 0
       neuro_list = res[2].sort[0..params[:neuro_victim].to_i - 1].each do |neur|
         ans += neur
+        if neur > maxtl
+          maxtl = neur
+        end
+        if neur < mintl
+          mintl = neur
+        end
       end
     end
     if params[:reanimation_victim].to_i != 0
       reanimation_list = res[3].sort[0..params[:reanimation_victim].to_i - 1].each do |rean|
         ans += rean
+        if rean > maxtl
+          maxtl = rean
+        end
+        if rean < mintl
+          mintl = rean
+        end
       end
     end
     if params[:burn_victim].to_i != 0
       burn_list = res[4].sort[0..params[:burn_victim].to_i - 1].each do |brn|
         ans += brn
+        if brn > maxtl
+          maxtl = brn
+        end
+        if brn < mintl
+          mintl = brn
+        end
       end
     end
-    render text: ans.to_s
+
+    result = [ans, mintc, maxtc, mintl, maxtl]
+    render json: result
   end
 
   def senddtp

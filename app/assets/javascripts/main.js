@@ -6,7 +6,8 @@ var buildFlag, endBuildFlag, res = [], maxDTPQountConst = 100;
 var victims=0, victims_matrix = [];
 // self
 var lpys1, lpys2, lpys3, lpys4, geoLpys = [], cars, resc=[], geoCars = [];
-var lastCar = null, lastLPY = null, vict_cars = [], vict_lpys = [], sstime = 0, last_vict_cars, last_vict_lpys, res1 = [], res2 = [], res3 = [], res4 = [];
+var lastCar = null, lastLPY = null, vict_cars = [], vict_lpys = [], last_vict_cars, last_vict_lpys, res1 = [], res2 = [], res3 = [], res4 = [];
+var sstime = [0, 1000000000, 0, 1000000000, 0];
 var qready;
 // auto
 // results
@@ -99,7 +100,7 @@ function update_cars_btn(i, j){
 }
 
 function update_selfsolve(){
-  sstime = 0;
+  sstime = [0, 1000000000, 0, 1000000000, 0];
   last_vict_cars = victims;
   last_vict_lpys = victims;
   for(var i = 1; i < 5; i++){
@@ -132,7 +133,12 @@ function reserve_car(i, j){
   ymaps.route([ { type: 'wayPoint', point: [DTPx, DTPy] }, 
                 { type: 'wayPoint', point: lastCar.geometry.getCoordinates() } 
              ]).done(function (route) {
-                sstime += route.getJamsTime();
+                var te = route.getJamsTime();
+                sstime[0] += te
+                if(sstime[1] > te) 
+                  sstime[1] = te;
+                if(sstime[2] < te)
+                  sstime[2] = te;
                 geoCars.remove(lastCar);
                 lastCar = null;
              });
@@ -156,7 +162,12 @@ function reserve_lpy(i, j){
   ymaps.route([ { type: 'wayPoint', point: [DTPx, DTPy] }, 
                 { type: 'wayPoint', point: lastLPY.geometry.getCoordinates() } 
              ]).done(function (route) {
-                sstime += route.getJamsTime();
+                var te = route.getJamsTime();
+                sstime[0] += te
+                if(sstime[3] > te) 
+                  sstime[3] = te;
+                if(sstime[4] < te)
+                  sstime[4] = te;
                 geoLpys.remove(lastLPY);
                 lastLPY = null;
              });
@@ -600,19 +611,30 @@ function getRouteData4(){
 }
 
 // results
+function get_time_string(gtime){
+  var temp = ' ' + Math.floor(gtime/3600) + ' часов ' + Math.floor((gtime - Math.floor(gtime/3600)*3600)/60) + ' минут ' + Math.floor(gtime - Math.floor(gtime/60) * 60) + ' секунд.';
+  return temp;
+}
+function set_result(res, div_name){
+  var string = 'Суммарное затраченное время на доставку пострадавших в ЛПУ: ' + get_time_string(res[0]) + '<br />';
+  string +=  ' Минимальное время приезда машины(минут): ' + Math.floor(res[1]/60) + '; максимальное(минут): ' + Math.floor(res[2]/60) + '.<br />';
+  string +=  ' Минимальное время доставки пострадавшего в ЛПУ(минут): ' + Math.floor(res[3]/60) + '; максимальное(минут): ' + Math.floor(res[4]/60) + '.';
+   $(div_name).html(string);
+}
+
 function set_selfsolve_results(){
   if(last_vict_cars > 0 || last_vict_lpys > 0){
     alert('Вы еще не завершили решение.');
     return;
   }
   
-  $('#selfRes').html('Затраченное время на доставку пострадавших в ЛПУ: ' + Math.floor(sstime/3600) + ' часов ' + Math.floor((sstime - Math.floor(sstime/3600)*3600)/60) + ' минут ' + Math.floor(sstime - Math.floor(sstime/60) * 60) + ' секунд.');
+  set_result(sstime, '#selfRes');
   alert('Ознакомиться с результатами можно на вкладке "Результаты".');
 
 }
 
-function set_auto_results(time){
-     $('#autoRes').html('Затраченное время на доставку пострадавших в ЛПУ: ' + Math.floor(time/3600) + ' часов ' + Math.floor((time - Math.floor(time/3600)*3600)/60) + ' минут ' + Math.floor(time - Math.floor(time/60) * 60) + ' секунд.');
+function set_auto_results(res){
+  set_result(res, '#autoRes');
   alert('Ознакомиться с результатами можно на вкладке "Результаты".');
 
 }
