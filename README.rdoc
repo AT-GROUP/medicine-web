@@ -1,28 +1,14 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Для запуска проекта на linux необходимо (команды установки приведены для ubuntu)
+1. Установить rvm '\curl -sSL https://get.rvm.io | bash -s stable'
+2. С помощью rvm установить ruby версии 1.9.3 и выше 'rvm install ruby_version'
+3. Установить bundler 'gem install bundler'
+4. Скопировать файлы проекта
+5. В папке с проектом запустить команду 'bundle install'
+6. В папке с проектом запустить команду 'rails s'
 
-Things you may want to cover:
+Для запуска проекта на windows лучше использовать виртуальную машину с linux, или использовать официальные гайды для установки ruby, bundler, ruby on rails.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+По умолчанию проект запускается в режиме development.
+В качестве сервера используется Webrick, а в качестве СУБД SqLite3.
