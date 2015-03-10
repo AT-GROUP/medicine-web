@@ -207,7 +207,7 @@ function showSurgery(){
             hideIconOnBalloonOpen: false
       });
       plmark.events.add("click", function (e) {
-        lastLPY = e._Jo.target;
+        lastLPY = e.get("target");
       });
       geoLpys.add(plmark);      
     }
@@ -252,7 +252,7 @@ function showBurn(){
             hideIconOnBalloonOpen: false
       });
       plmark.events.add("click", function (e) {
-        lastLPY = e._Jo.target;
+        lastLPY = e.get("target");
       });
       geoLpys.add(plmark);      
     }
@@ -297,7 +297,7 @@ function showNeuro(){
             hideIconOnBalloonOpen: false
       });
       plmark.events.add("click", function (e) {
-        lastLPY = e._Jo.target;
+        lastLPY = e.get("target");
       });
       geoLpys.add(plmark);      
     }
@@ -342,7 +342,7 @@ function showReanimation(){
             hideIconOnBalloonOpen: false
       });
       plmark.events.add("click", function (e) {
-        lastLPY = e._Jo.target;
+        lastLPY = e.get("target");
       });
       geoLpys.add(plmark);      
     }
@@ -403,7 +403,7 @@ function showCars(){
             hideIconOnBalloonOpen: false
       });
       plmark.events.add("click", function (e) {
-        lastCar = e._Jo.target;
+        lastCar = e.get("target");
       });
       geoCars.add(plmark);      
     }

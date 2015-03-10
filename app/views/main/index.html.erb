@@ -1,53 +1,49 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		 <meta http-equiv="content-type" content="charset=utf-8"/>
-	    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-      <script>
-        var geoLpys, geoCars; 
-        function init(){     
-            myMap = new ymaps.Map("map", {
-                center: [<%= @mapCords[0].to_s + ", " + @mapCords[1].to_s %> ],
-                zoom: <%= @mapZoom %>
-            });
-            geoLpys = new ymaps.GeoObjectCollection();
-            geoCars = new ymaps.GeoObjectCollection();
-        }
-        ymaps.ready(init);     
-      </script>
-      
-	</head>
-	<body>
-    <nav class="navbar navbar-fixed-top whiteback" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header navbar-right">
-          <ul id="tabMenu" class="nav nav-tabs" >
-            <li><a href="#createDTP" class="active" data-toggle="tab" >Указать ДТП</a></li>
-            <li><a href="#selfSolve" data-toggle="tab" >Решить вручную</a></li>
-            <li><a href="#autoSolve" data-toggle="tab" >Автоматическое решение</a></li>
-            <li><a href="#results" data-toggle="tab" >Результаты</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-      
-		<div id="map" >   </div>
+<% content_for :head do %>
+  <meta http-equiv="content-type" content="charset=utf-8"/>
+  <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+  <script>
+    var geoLpys, geoCars; 
+    function init(){     
+        myMap = new ymaps.Map("map", {
+            center: [<%= @mapCords[0].to_s + ", " + @mapCords[1].to_s %> ],
+            zoom: <%= @mapZoom %>
+        });
+        geoLpys = new ymaps.GeoObjectCollection();
+        geoCars = new ymaps.GeoObjectCollection();
+    }
+    ymaps.ready(init);     
+  </script>
+<% end %>
 
-		<div id="menu">
-      <div class="tab-content" id="tabMenuContent" >
-        <div class="tab-pane fade active in" id="createDTP" > 
-          <%= render 'createdtp' %> 
-        </div>
-        <div class="tab-pane fade" id="selfSolve" >
-          <%= render 'selfsolve' %>
-        </div>
-        <div class="tab-pane fade" id="autoSolve" >
-          <%= render 'autosolve' %>
-        </div>
-        <div class="tab-pane fade" id="results" >
-          <%= render 'results' %>
-        </div>
-      </div>
-		</div>
-	</body>
-</html>
+<nav class="navbar navbar-fixed-top whiteback" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header navbar-right">
+      <ul id="tabMenu" class="nav nav-tabs" >
+        <li><a href="#createDTP" class="active" data-toggle="tab" >Указать ДТП</a></li>
+        <li><a href="#selfSolve" data-toggle="tab" >Решить вручную</a></li>
+        <li><a href="#autoSolve" data-toggle="tab" >Автоматическое решение</a></li>
+        <li><a href="#results" data-toggle="tab" >Результаты</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div id="map" >   </div>
+
+<div id="menu">
+  <div class="tab-content" id="tabMenuContent" >
+    <div class="tab-pane fade active in" id="createDTP" > 
+      <%= render 'createdtp' %> 
+    </div>
+    <div class="tab-pane fade" id="selfSolve" >
+      <%= render 'selfsolve' %>
+    </div>
+    <div class="tab-pane fade" id="autoSolve" >
+      <%= render 'autosolve' %>
+    </div>
+    <div class="tab-pane fade" id="results" >
+      <%= render 'results' %>
+    </div>
+  </div>
+</div>
+
